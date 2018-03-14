@@ -2,8 +2,8 @@ import spacy
 from nltk import Tree
 
 punctuation = [u',', u'.', u';', u'?']
-
 nlp = spacy.load("en")
+comma = nlp(u',')[0]
 
 text = "I like cake. The quick brown fox jumped over the lazy log. When I went to the store, to buy milk, the low fat one, I walked, albeit slowly, over a manhole, which had a strange pink cover. The horse raced past the barn fell. Anyone who feels that if so many more students whom we haven't actually admitted are sitting in on the course than ones we have that the room had to be changed, then probably auditors will have to be excluded, is likely to agree the curiculum needs revision."
 
@@ -11,8 +11,10 @@ def sentify(text):
 	output = []
 	doc = nlp(unicode(text, 'utf-8'))
 	for sent in doc.sents:
+		sentence = []
 		for clause in clausify(sent):
-			output.append(yodafy(clause))
+			sentence.append(yodafy(clause))
+		output.append(sentence)
 	return output
 
 def clausify(sent):
@@ -37,14 +39,25 @@ def yodafy(clause):
         	        new_array.append(token)
 	        if not state and (token.dep_ == unicode("ROOT", "utf-8") or token.dep_ == unicode("aux", "utf-8")):
 	                state = True
-	new_array.append(",")
+	#new_array.append(comma)
 	for token in clause:
 	        new_array.append(token)
 	        if token.dep_ == unicode("ROOT", "utf-8") or token.dep_ == unicode("aux", "utf-8"):
 	                break
 	return new_array
 
-print sentify(text)
+# TODO Handle punctuation of commas
+# TODO Handle capitalization
+
+string = ""
+yodafied = sentify(text)
+for sentence in yodafied:
+	sentence_ = ""
+	for clause in sentence:
+		for token in clause:
+			sentence_+=token.text + " "
+	print sentence_
+print string
 
 """
 for token in doc:
