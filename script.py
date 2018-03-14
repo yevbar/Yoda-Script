@@ -10,8 +10,10 @@ text = "I like cake. The quick brown fox jumped over the lazy log. When I went t
 def sentify(text):
 	output = []
 	doc = nlp(unicode(text, 'utf-8'))
+	"""
 	for token in doc:
 		print token.text + " - " + token.dep_
+	"""
 	for sent in doc.sents:
 		sentence = []
 		for clause in clausify(sent):
@@ -56,10 +58,14 @@ string = ""
 yodafied = sentify(text)
 for sentence in yodafied:
 	sentence_ = ""
+	ending = ""
 	for clause in sentence:
 		for token in clause:
+			#print "[" + token.dep_ + "]"
 			if token.dep_ == u'NNP' or token.dep_ == u'NNPS' or token.text == u'I':
 				sentence_ += token.text + " "
+			elif sentence_ == "" and token.dep_ == u'neg':
+				sentence_ += "Not" + " "
 			elif sentence_ == "":
 				sentence_ += token.text[0].upper() + token.text[1:] + " "
 			elif token.dep_ == u'punct':
@@ -67,7 +73,7 @@ for sentence in yodafied:
 				sentence_ = sentence_[:len(sentence_)-1] + token.text + " "
 			else:
 				sentence_+=token.text.lower() + " "
-	print sentence_
+	print sentence_ + " " + ending
 print string
 
 """
