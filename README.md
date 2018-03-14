@@ -1,4 +1,13 @@
 # Yoda-API
 
-// text is a Python string
-Use `yoda(text)` for a yoda-fied version of text
+Given a `python` string `string` and `yoda.py` is installed
+
+```
+import yoda
+
+//Get string
+
+string = " ... "
+
+print yoda(string)
+```
